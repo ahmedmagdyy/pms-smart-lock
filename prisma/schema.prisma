@@ -9,3 +9,64 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Unit {
+  id          BigInt        @id @default(autoincrement())
+  unitName    String        @unique @map("unit_name") @db.VarChar(255)
+  Reservation Reservation[]
+  Lock        Lock[]
+  AccessCode  AccessCode?
+  createdAt   DateTime      @default(now()) @map("created_at")
+  updatedAt   DateTime      @updatedAt @map("updated_at")
+  @@map("unit")
+}
+
+model Reservation {
+  id          BigInt      @id @default(autoincrement())
+  unitId      BigInt      @map("unit_id")
+  guestName   String      @map("guest_name") @db.VarChar(255)
+  checkIn     DateTime    @map("check_in")
+  checkOut    DateTime    @map("check_out")
+  isCancelled Boolean     @default(false) @map("is_cancelled")
+  unit        Unit        @relation(fields: [unitId], references: [id], onDelete: Cascade)
+  AccessCode  AccessCode?
+  createdAt   DateTime    @default(now()) @map("created_at")
+  updatedAt   DateTime    @updatedAt @map("updated_at")
+  @@map("reservation")
+}
+
+model Lock {
+  id           BigInt      @id @default(autoincrement())
+  unitId       BigInt      @unique @map("unit_id")
+  remoteLockId String      @unique @map("remote_lock_id") @db.VarChar(255)
+  unit         Unit        @relation(fields: [unitId], references: [id], onDelete: Cascade)
+  AccessCode   AccessCode?
+  createdAt    DateTime    @default(now()) @map("created_at")
+  updatedAt    DateTime    @updatedAt @map("updated_at")
+  @@map("lock")
+}
+
+model AccessCode {
+  id               BigInt      @id @default(autoincrement())
+  passcode         String      @db.VarChar(255)
+  remotePasscodeId String      @map("remote_passcode_id") @db.VarChar(255)
+  unitId           BigInt      @unique @map("unit_id")
+  lockId           BigInt      @unique @map("lock_id")
+  reservationId    BigInt      @unique @map("reservation_id")
+  unit             Unit        @relation(fields: [unitId], references: [id], onDelete: Cascade)
+  lock             Lock        @relation(fields: [lockId], references: [id], onDelete: Cascade)
+  reservation      Reservation @relation(fields: [reservationId], references: [id], onDelete: Cascade)
+  createdAt        DateTime    @default(now()) @map("created_at")
+  updatedAt        DateTime    @updatedAt @map("updated_at")
+  @@map("access_code")
+}
+
+model Token {
+  id           BigInt   @id @default(autoincrement())
+  token        String   @unique @db.VarChar(255)
+  refreshToken String   @map("refresh_token") @db.VarChar(255)
+  deviceId     String   @map("device_id") @db.VarChar(255)
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+  @@map("token")
+}
