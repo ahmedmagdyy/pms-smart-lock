@@ -7,9 +7,11 @@
     "format": "prettier --write \"src/**/*.ts\" \"tests/**/*.ts\" *.json",
     "lint": "eslint \"{src, tests}/**/*.ts\" --fix",
     "build": "tsc && cp -r ./src/html/ ./dist/",
-    "start": "node .",
-    "dev": "tsnd --respawn --transpile-only ./src/index.ts",
-    "prepare": "husky install"
+    "start": "npm run prisma-gen && node .",
+    "dev": "npm run prisma-gen && tsnd --respawn --transpile-only ./src/index.ts",
+    "prepare": "husky install",
+    "prisma-pull": "npx prisma db pull",
+    "prisma-gen": "npx prisma generate"
   },
   "author": "ahmed magdy <ahmedmagdy2016@gmail.com>",
   "license": "MIT",
