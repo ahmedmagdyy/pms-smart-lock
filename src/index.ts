@@ -4,6 +4,7 @@ import { ApolloServer } from 'apollo-server-express';
 import Express from 'express';
 import cors from 'cors';
 import { createSchema } from './utils/createSchema';
+import { prisma } from './prismaClient';
 
 const main = async () => {
   const app = Express();
@@ -19,6 +20,7 @@ const main = async () => {
     context: ({ req, res }) => ({
       req,
       res,
+      prisma,
     }),
     introspection: true,
   });
