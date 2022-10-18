@@ -1,6 +1,6 @@
 # Smart lock
 
-NodeJS server to add smart-lock support to an existing PMS.
+NodeJS server to add smart-lock support to an existing PMS (Property management system), Server uses [Tuya](https://www.tuya.com/) API to generate access code.
 
 ## Installation
 
