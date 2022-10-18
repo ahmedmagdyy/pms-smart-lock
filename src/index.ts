@@ -5,6 +5,7 @@ import Express from 'express';
 import cors from 'cors';
 import { createSchema } from './utils/createSchema';
 import { prisma } from './prismaClient';
+import './events';
 
 const main = async () => {
   const app = Express();
