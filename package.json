@@ -8,10 +8,11 @@
     "lint": "eslint \"{src, tests}/**/*.ts\" --fix",
     "build": "tsc && cp -r ./src/html/ ./dist/",
     "start": "npm run prisma-gen && node .",
-    "dev": "npm run prisma-gen && tsnd --respawn --transpile-only ./src/index.ts",
+    "dev": "npm run prisma-gen && npm run prisma-seed && tsnd --respawn --transpile-only ./src/index.ts",
     "prepare": "husky install",
     "prisma-pull": "npx prisma db pull",
-    "prisma-gen": "npx prisma generate"
+    "prisma-gen": "npx prisma generate",
+    "prisma-seed": "ts-node src/seed.ts"
   },
   "author": "ahmed magdy <ahmedmagdy2016@gmail.com>",
   "license": "MIT",
@@ -19,8 +20,10 @@
   "dependencies": {
     "@prisma/client": "^4.4.0",
     "apollo-server-express": "^3.10.3",
+    "axios": "^1.1.2",
     "class-validator": "^0.13.2",
     "cors": "^2.8.5",
+    "crypto": "^1.0.1",
     "express": "^4.18.1",
     "graphql": "^15.8.0",
     "reflect-metadata": "^0.1.13",

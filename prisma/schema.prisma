@@ -14,10 +14,11 @@ model Unit {
   id          BigInt        @id @default(autoincrement())
   unitName    String        @unique @map("unit_name") @db.VarChar(255)
   Reservation Reservation[]
-  Lock        Lock[]
+  Lock        Lock?
   AccessCode  AccessCode?
   createdAt   DateTime      @default(now()) @map("created_at")
   updatedAt   DateTime      @updatedAt @map("updated_at")
+
   @@map("unit")
 }
 
@@ -66,6 +67,7 @@ model Token {
   token        String   @unique @db.VarChar(255)
   refreshToken String   @map("refresh_token") @db.VarChar(255)
   deviceId     String   @map("device_id") @db.VarChar(255)
+  expiresAt    DateTime @map("expires_at")
   createdAt    DateTime @default(now()) @map("created_at")
   updatedAt    DateTime @updatedAt @map("updated_at")
   @@map("token")
