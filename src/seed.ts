@@ -32,8 +32,8 @@ async function seedDB() {
       id: Number(testUnit.id),
       Lock: [
         {
-          ...testUnit.Lock[0],
-          id: Number(testUnit.Lock[0].id),
+          ...testUnit.Lock,
+          id: Number(testUnit?.Lock?.id),
         },
       ],
     },
